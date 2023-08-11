@@ -1,46 +1,23 @@
-interface PersonInterface {
-  name: string;
-  age?: number;
+// 型引数 現時点でいまなんの型が入るかわからない ジェネリック型とも呼ばれている
+// <>をいれないと必ずコンパイルエラーになる
+type Family<Parent, Child> = {
+  mother: Parent
+  father: Parent
+  child: Child
 }
 
-interface PersonInterface {
-  email: string;
+const familyObj: Family<number, string> = {
+  mother: 40,
+  father: 42,
+  child: "10"
 }
 
-const personWithInterface: PersonInterface = {
-  name: "田中",
-  email: "tanaka@example.com"
-};
-
-const personWithInterface1: PersonInterface = {
-  name: "田中",
-  age: 25,
-  email: "tanaka@example.com"
-};
-
-console.log(`${personWithInterface.name}さんのメールアドレスは${personWithInterface.email}です`);
-// // 'personWithInterface.age' は 'undefined' の可能性があります。
-// console.log(personWithInterface.age * 1000);
-
-if(personWithInterface.age !== undefined){
-  console.log(personWithInterface.age * 1000);
-} else {
-  console.log("値がありません");
+const familyObjName: Family<string, string> = {
+  mother: "ヨシコ",
+  father: "たろう",
+  child: "あああ"
 }
 
-type Name = {
-  name: string;
-};
-
-type Age = {
-  age: number;
-};
-
-type PersonType = Name & Age;
-
-const personWithType: PersonType = {
-  name: "山田",
-  age: 30
-};
-
-console.log(`${personWithType.name}さんは${personWithType.age}歳です`);
+// 型引数で値を決めるため、オブジェクト定義時に型を決めればそれが入る
+console.log(familyObj.mother);
+console.log(familyObjName.mother);
