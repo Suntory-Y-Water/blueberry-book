@@ -1,23 +1,16 @@
-// 型引数 現時点でいまなんの型が入るかわからない ジェネリック型とも呼ばれている
-// <>をいれないと必ずコンパイルエラーになる
-type Family<Parent, Child> = {
+type HasName = {
+  name: string
+}
+
+type Family<Parent extends HasName, Child extends HasName> = {
   mother: Parent
   father: Parent
   child: Child
 }
 
-const familyObj: Family<number, string> = {
-  mother: 40,
-  father: 42,
-  child: "10"
+const familyObj: Family< {name: string }, {name: string}> = {
+  mother: {name: "tarou"},
+  father: {name: "kiyohiko"},
+  child: {name: "ru-mae"}
 }
-
-const familyObjName: Family<string, string> = {
-  mother: "ヨシコ",
-  father: "たろう",
-  child: "あああ"
-}
-
-// 型引数で値を決めるため、オブジェクト定義時に型を決めればそれが入る
 console.log(familyObj.mother);
-console.log(familyObjName.mother);
