@@ -1,16 +1,15 @@
-type HasName = {
-  name: string
-}
+const arr: readonly number[] = [4 * 100, 5, 999]
+const arr2 = [1, 2, 3, ...arr]
+console.log(arr2);
 
-type Family<Parent extends HasName, Child extends HasName> = {
-  mother: Parent
-  father: Parent
-  child: Child
-}
+// arr[0] = 100
+arr2[0] = 100
+console.log(arr2);
 
-const familyObj: Family< {name: string }, {name: string}> = {
-  mother: {name: "tarou"},
-  father: {name: "kiyohiko"},
-  child: {name: "ru-mae"}
+const numArr = [1, 10, 100, 1000]
+numArr.push(10000)
+console.log(numArr);
+
+for(const num of numArr){
+  console.log(`値は${num * 2}です`);
 }
-console.log(familyObj.mother);
