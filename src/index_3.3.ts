@@ -4,16 +4,16 @@ interface Vehicle {
   model: string;
 }
 
-const car: Vehicle = {
+const cars: Vehicle = {
   brand: "Toyota",
   model: "Camry"
 };
 
 // エラー：読み取り専用プロパティであるため変更不可
-// car.brand = "Honda";
+// cars.brand = "Honda";
 
-car.model = "Corolla";
-console.log(car.model);
+cars.model = "Corolla";
+console.log(cars.model);
 
 const person = {
   name: "田中",
