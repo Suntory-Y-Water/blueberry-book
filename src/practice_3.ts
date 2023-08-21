@@ -1,31 +1,57 @@
-// 問題11: 関数宣言を使用して、2つの数値を引数として受け取り、その和を返す関数sumを宣言してください。
-const sum = (a: number, b:number) => {
-  return a + b
+/*
+問題1: アロー関数と可変長引数
+
+以下の要件を満たすアロー関数を宣言してください。
+
+関数名はsumとします。
+可変長引数として数値を受け取ります。
+与えられた全ての数値の合計を返します。
+*/
+
+const allAddSum = (...inputNum: number[]) => {
+  let result: number = 0
+  for(const num of inputNum){
+    result += num
+  }
+  return result
 }
 
-// 問題12: 返り値がない関数を作成してください。この関数は、受け取った文字列をコンソールに出力する関数logMessageとして宣言してください。
-const logMessage = (message: string) => {
-  console.log(message);
-}
-logMessage("tintin")
+/*
+問題2: コールバック関数とオプショナル引数
+次の要件を満たす関数を宣言してください。
+関数名はprocessArrayとします。
+第1引数として数値の配列を受け取ります。
+第2引数としてコールバック関数を受け取ります。この関数は数値を引数として受け取り、数値を返すものとします。
+第3引数として数値（デフォルト値10）をオプショナルで受け取ります。
+処理内容は、配列の各要素にコールバック関数を適用し、その結果に第3引数の数値を加算します。加算後の配列を返します。
+*/
 
-// 問題13: 関数式を使用して、2つの数値の差を返す関数differenceを宣言してください。
-const diffrence = (a: number, b: number) => {
-  return Math.abs(a - b)
+const processArray = (numArr: number[], callback:(num: number) => number, optionalNum: number = 10) => {
+  return numArr.map(num => callback(num) + optionalNum)
 }
-console.log(diffrence(1, 5));
+const result = processArray([10,20,30], x => x / 2, 5)
+console.log(result);
 
-// 問題14: アロー関数式を使用して、2つの数値の積を返す関数multiplyを宣言してください。
-const multiply = (a: number, b: number) => {
-  return a * b
+/*
+問題3: 関数型と部分型関係
+以下の関数型FuncAとFuncBが与えられています。
+type FuncA = (x: number, y: number) => void;
+type FuncB = (x: number) => void;
+次の文を考えたとき、FuncA型の変数をFuncB型の変数に代入することができるか、そしてその理由を説明してください。
+
+Q1: exampleFuncAをFuncBの型で再割り当てすることはできますか？理由とともに説明してください。
+Q2: exampleFuncBをFuncAの型で再割り当てすることはできますか？理由とともに説明してください。
+
+*/
+type FuncA = (x: number, y: number) => void;
+type FuncB = (x: number) => void;
+
+const exampleFuncA: FuncA = (x, y) => {
+  console.log(`Number: ${x}, String: ${y}`);
 }
 
-// 問題15: 省略形のアロー関数を使用して、与えられた数値を2で割った結果を返す関数halfを宣言してください。
-const half = (num: number) => {
-  return num / 2
+const exampleFuncB: FuncB = x => {
+  return x.toString();
 }
-
-// 問題16: 以下のオブジェクト内に、メソッド記法を使用して、自身の名前をコンソールに出力するintroduceメソッドを追加してください。
-const johnHouse = {
-  name: "John"
-}
+// Q1:できない。引数の数とFuncBがstring型を返すため
+// Q2:できる。理由はよくわかっていません。
