@@ -16,5 +16,6 @@ const repeat = <T>(element: T, length: number) => {
   return result
 }
 
-console.log(repeat<string>("tintin", 5));
-console.log(repeat<number>(10, 5));
+console.log(result);
+console.log(repeat("aa", 5));
+console.log(repeat(10, 5));

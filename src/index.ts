@@ -1,36 +1,33 @@
-// コールシグネチャ 
-// コールシグネチャは、関数の型を定義するための構文です。これを使用することで、関数が取るべき引数とその関数の返すべき値の型を指定することができます。
-type AddFunction = (x: number, y: number) => number;
-const add: AddFunction = (x, y) => {
-  return x + y;
-};
+const getFizzBuzzString = (inputNum: number) => {
+  const fizz = "Fizz"
+  const buzz = "Buzz"
+  const countMemo = `今の値は${inputNum}です : `
 
-// 関数型の部分型関係
-type WeHasName = {
-  name: string
+  if(inputNum % 15 === 0){
+    return `${countMemo}${fizz}${buzz}`
+  } else if(inputNum % 5 === 0){
+    return `${countMemo}${buzz}`
+  } else if(inputNum % 3 === 0){
+    return `${countMemo}${fizz}`
+  } else {
+    return `${countMemo}${inputNum}`
+  }
 }
 
-type WeHasNameAndAge = {
-  name: string
-  age: number
+// for(let i = 1; i <= 100; i++){
+//   const message = getFizzBuzzString(i)
+//   console.log(message);
+// }
+
+const sequence = (start: number, end: number) => {
+  const result: number[] = []
+  for(let i = start; i <= end; i++){
+    result.push(i)
+  }
+  return result
 }
 
-const fromAge = (age: number): WeHasNameAndAge => ({
-  name: "John Smith",
-  age,
-})
-
-const f:(age: number) => WeHasName = fromAge;
-const obj: WeHasName = f(100);
-console.log(obj);
-
-const showName = (obj: HasName) => {
-  console.log(obj.name);
+for(const i of sequence(1, 100)){
+  const message = getFizzBuzzString(i)
+  console.log(message);
 }
-
-const g:(obj: WeHasNameAndAge) => void = showName;
-
-g({
-  name: "atsumi",
-  age: 32
-})
