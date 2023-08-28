@@ -1,5 +1,4 @@
 class ForeignUser {
-  // 修飾子をつけることでコンストラクタ兼プロパティの宣言になる
   // 修飾子をつけないとただの引数宣言になってしまう
   // TypeScript特有らしい
   // constructor(public name: string, private age:number, readonly locate: string){}
