@@ -1,21 +1,30 @@
-import { readFile} from 'fs/promises'
-
-const p = readFile('./src/bk/foo.txt', 'utf-8')
-
-// errorにはunknownをつける
-p.then((result) => {
-  console.log('成功',result);
-},(error: unknown) => {
-  console.log('失敗', error);
-})
-
-// 8.3.4 自分でPromiseを定義してみよう
-const countTime = new Promise<number>((resolve) => {
-  setTimeout(() => {
-    resolve(100);
-  }, 2000);
-})
-
-countTime.then((num) => {
-  console.log(`結果は${num}`);
-})
+function request1(): Promise<number> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('failed1'));
+    }, 4000);
+  });
+}
+function request2(): Promise<number> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('failed2'));
+    }, 2000);
+  });
+}
+function request3(): Promise<number> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('failed3'));
+    }, 1000);
+  });
+}
+Promise.all([request1(), request2(), request3()])
+  .then(([num1, num2, num3]) => {
+    console.log(num1, num2, num3);
+  })
+  .catch((e) => {
+    // 最も早く終わった例外が返る
+    console.log(e.message);
+    // @log: 'failed3'
+  });
