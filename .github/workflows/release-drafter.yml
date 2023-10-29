@@ -1,0 +1,33 @@
+name: Generate Release Notes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release_notes:
+    name: Create Release Notes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Generate Release Notes
+        id: release_notes
+        run: |
+          echo "::set-output name=notes::$(git log --pretty=format:'%h %s %b' -n 1)"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ${{ steps.release_notes.outputs.notes }}
+          draft: false
+          prerelease: false
