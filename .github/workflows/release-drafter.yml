@@ -1,33 +1,38 @@
-name: Generate Release Notes
+name: Release Drafter
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# on:
+#   push:
+#     # branches to consider in the event; optional, defaults to all
+#     branches:
+#       - main
+#     # pull_request event is required only for autolabeler
+#     pull_request:
+#       # Only following types are handled by the action, but one can default to all as well
+#       types: [opened, reopened, synchronize]
+#     # pull_request_target event is required for autolabeler to support PRs from forks
+#     pull_request_target:
+#       types: [opened, reopened, synchronize]
 
 jobs:
-  release_notes:
-    name: Create Release Notes
+  update_release_draft:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: main
+      # (Optional) GitHub Enterprise requires GHE_HOST variable set
+      #- name: Set GHE_HOST
+      #  run: |
+      #    echo "GHE_HOST=${GITHUB_SERVER_URL##https:\/\/}" >> $GITHUB_ENV
 
-      - name: Generate Release Notes
-        id: release_notes
-        run: |
-          echo "::set-output name=notes::$(git log --pretty=format:'%h %s %b' -n 1)"
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v5
+        # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
+        # with:
+        #   config-name: my-config.yml
+        #   disable-autolabeler: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: ${{ steps.release_notes.outputs.notes }}
-          draft: false
-          prerelease: false
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
